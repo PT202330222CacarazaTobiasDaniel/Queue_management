@@ -1,24 +1,26 @@
 package org.example.Model;
 
 import java.util.Queue;
+import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class Server implements Runnable {
 
     private BlockingQueue<Task> tasks;
-    private AtomicInteger waitingPeriod;
+    private AtomicInteger waitingPeriod = new AtomicInteger(0);
+
 
     public Server(){
         //initialize queue and waitingPeriod
         this.tasks = null;
         this.waitingPeriod = null;
     }
-    public Server(BlockingQueue<Task> tasks1,AtomicInteger waitingPeriod1){
+    public Server(int tasks1){
         //initialize queue and waitingPeriod
-        this.tasks = tasks1;
-        this.waitingPeriod = waitingPeriod1;
+        this.tasks = new ArrayBlockingQueue<Task>(tasks1);
     }
+
 
     public void addTask(Task newTask)
     {
@@ -32,18 +34,41 @@ public class Server implements Runnable {
 
     @Override
     public void run() {
-        while(true)
-        {
-            //take next task from queue
-            if(tasks.contains(null));
-            // stop the thread for a time equal with the task's processing time
 
-            // decrement waitingPeriod
-            waitingPeriod.decrementAndGet();
-            ///waitingPeriod.set(waitingPeriod.getAndDecrement());
-        }
+            while(true)
+            {
+                if(tasks.size()>0)
+                {
+                    //take next task from queue
+                    Task task = tasks.peek();
+                    task.decrementService();
+                    // decrement waitingPeriod
+                    waitingPeriod.decrementAndGet();
+                    // stop the thread for a time equal with the task's processing time
+                    if(task.getServiceTime() == 0) {
+                        tasks.remove();
+                    }
+                }
+
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+
+            }
+
     }
     public Task[] getTasks(){
-        return null;
+        return tasks.toArray(Task[]::new);
     }
+    public AtomicInteger getWaitingPeriod() {
+        return waitingPeriod;
+    }
+
+    public int getNrTasks()
+    {
+        return tasks.size();
+    }
+
 }

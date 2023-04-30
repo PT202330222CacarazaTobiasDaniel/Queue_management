@@ -1,6 +1,7 @@
 package org.example.Model;
 
 public class Task implements Comparable{
+
     private int ID;
     private int arrivalTime;
     private int serviceTime;
@@ -19,6 +20,14 @@ public class Task implements Comparable{
     {
         return this.arrivalTime;
     }
+    public int getID()
+    {
+        return this.ID;
+    }
+    public int getServiceTime()
+    {
+        return this.serviceTime;
+    }
 
     @Override
     public String toString()
@@ -30,4 +39,10 @@ public class Task implements Comparable{
     public int compareTo(Object o) {
         return this.arrivalTime-((Task)o).arrivalTime;
     }
+
+    public void decrementService() {
+        this.serviceTime = this.serviceTime-1;
+    }
+
+
 }

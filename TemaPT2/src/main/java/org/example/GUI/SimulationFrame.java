@@ -3,7 +3,6 @@ package org.example.GUI;
 import org.example.Model.Task;
 
 import javax.swing.*;
-import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -61,18 +60,22 @@ public class SimulationFrame extends  JFrame {
         jTextArea2.setRows(5);
         jTextArea2.setText("\n");
         jScrollPane2.setViewportView(jTextArea2);
-
         jLabel1.setText("Numarul de clienti :");
+        NrClienti.setText("21");
         jLabel2.setText("Numarul de cozi :");
+        NrCozi.setText("3");
         jLabel3.setText("Timp de simulare :");
+        TMaxSim.setText("7");
         jLabel4.setText("Arrival time : ");
         jLabel5.setText("min");
         jLabel6.setText("max");
+        MaxArrival.setText("8");
         jLabel7.setText("Service time :");
         jLabel8.setText("min");
         jLabel9.setText("max");
-        jLabel10.setText("jLabel10");
-        jLabel11.setText("jLabel11");
+        MaxService.setText("3");
+        jLabel10.setText("Clienti");
+        jLabel11.setText("Simulare");
 
         Ok.setText("Ok");
         Ok.addActionListener(new java.awt.event.ActionListener() {
@@ -198,6 +201,8 @@ public class SimulationFrame extends  JFrame {
     }
 
     private void OkActionPerformed(java.awt.event.ActionEvent evt) {
+
+
         nrClienti = Integer.parseInt(NrClienti.getText().compareTo("") == 0?"0":NrClienti.getText());
         nrCozi = Integer.parseInt(NrCozi.getText().compareTo("") == 0?"0":NrCozi.getText());
         tMaxSim = Integer.parseInt(TMaxSim.getText().compareTo("") == 0?"0":TMaxSim.getText());
@@ -244,13 +249,14 @@ public class SimulationFrame extends  JFrame {
     private   JButton Ok;
     private  JScrollPane jScrollPane2;
     private  JTextArea jTextArea2;
-    public void updateT(List<Task> tasks) {
+    public void updateT(List<Task> tasks, String text) {
         String s = " ";
         if(tasks != null) {
             for(Task t: tasks)
                 s += t + "\n";
             jTextArea1.setText(s);
         }
+        jTextArea2.setText(text);
     }
 
 }
